@@ -77,7 +77,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        CROSS_OVER_VERSION: [22.0.1, 21.2.0, 20.0.4, 19.0.2] # 22.0.0, 21.1.0, 21.0.0, 20.0.2, 20.0.1, 20.0.0, 19.0.1, 19.0.0
+        CROSS_OVER_VERSION: [22.0.1]  # Use only newest CrossOver for NosTale patching
     runs-on:  macos-latest
 
     env:
@@ -98,6 +98,19 @@ jobs:
       - name: Get latest HomeBrew formulas/bottles
         run: |
           brew update
+
+      - name: Resolve symlinks condition
+        run: |
+          rm /usr/local/bin/2to3
+          rm /usr/local/bin/2to3-3.11
+          rm /usr/local/bin/idle3.11
+          rm /usr/local/bin/idle3
+          rm /usr/local/bin/pydoc3
+          rm /usr/local/bin/pydoc3.11
+          rm /usr/local/bin/python3
+          rm /usr/local/bin/python3.11
+          rm /usr/local/bin/python3-config
+          rm /usr/local/bin/python3.11-config
 
       - name: Install Wine Build Dependencies
         run: |
@@ -162,6 +175,13 @@ jobs:
         run: |
           pushd sources/wine
           patch -p1 < ${{ github.workspace }}/distversion.patch
+          popd
+
+      - name: Patch Wine for NosTale compatibility
+        # Patch provided by Morsisko, NosApki and Linux gaming community
+        run: |
+          pushd sources/wine
+          patch -p1 < ${{ github.workspace }}/nostale.patch
           popd
 
       - name: Patch in vkd3d-1.4 (specific to 22.0.0)
