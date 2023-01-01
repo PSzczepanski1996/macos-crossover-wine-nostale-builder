@@ -1,14 +1,34 @@
-# MacOS CrossOver FOSS built from the Cloud
+# CrossOver built in the cloud with NosTale support
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 
 [![.github/workflows/build_monolithic.yml](https://github.com/GabLeRoux/macos-crossover-cloud-build/workflows/Wine-Crossover-MacOS/badge.svg)](https://github.com/GabLeRoux/macos-crossover-cloud-build/actions)
 [![.github/workflows/build_monolithic.yml](https://github.com/GabLeRoux/macos-crossover-cloud-build/workflows/Wine-Crossover-MacOS-local/badge.svg)](https://github.com/GabLeRoux/macos-crossover-cloud-build/actions)
 
-Let's build [FOSS CrossOver][foss-crossover] for macOS in the cloud! I found [some gists][crossover-gist] and I asked myself why don't we use the cloud and the free open source builders to build this? Here it is.
+
+## What this really is?
+This is custom CrossOver (wine-based solution) builder that enables support for old game called "NosTale".
+It resolves this issue from bugzilla:
+
+https://bugs.winehq.org/show_bug.cgi?id=42999
+
+And how it works? Because of some anticheat/antibug solution NosTale checks if 
+it's calling own-code by verifying it's running under `0x70000000` memory range.
+For some reason Wine places `user32.dll` in space reserved below that, causing bugs, 
+and most importantly, making the entire game unplayable.
+
+The solution was found by [Michael](https://github.com/morsisko) from NosApki team and Linux community.
+I'm literally just putting it together to previously mentioned builder using simple custom patch (it's under `nostale.patch` file).
+
+## Okey, but... I can't find CrossOver app file, instead I got wine executables!
+
+That's the point. What you need to do is move `user32.dll` / `user32.so` files into CrossOver executable.
+There are multiple catalogues in `CrossOver.app/Contents/SharedSupport/lib/wine` and you need to match each one using `wine` (not local) built files by GitHub actions.
+Also you should replace executables in `CrossOver.app/Contents/SharedSupport/bin` too (using files from `bin` catalogue from custom `wine`).
+Script that does it automatically should be provided soon.
 
 ## How this works?
 
@@ -77,6 +97,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
+    <td align="center"><a href="https://github.com/morsisko"><img src="https://avatars.githubusercontent.com/u/11231925?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Michael</b></sub></a><br /><a href="https://github.com/GabLeRoux/macos-crossover-cloud-build/commits?author=morsisko" title="Code">💻</a>
+    <td align="center"><a href="https://github.com/PSzczepanski1996"><img src="https://avatars.githubusercontent.com/u/21007545?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Patryk Szczepański</b></sub></a><br /><a href="https://github.com/GabLeRoux/macos-crossover-cloud-build/commits?author=PSzczepanski1996" title="Code">💻</a>
     <td align="center"><a href="https://gableroux.com"><img src="https://avatars.githubusercontent.com/u/1264761?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Gabriel Le Breton</b></sub></a><br /><a href="https://github.com/GabLeRoux/macos-crossover-cloud-build/commits?author=GabLeRoux" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/dasmy"><img src="https://avatars.githubusercontent.com/u/5322274?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mathias</b></sub></a><br /><a href="https://github.com/GabLeRoux/macos-crossover-cloud-build/commits?author=dasmy" title="Code">💻</a></td>
         <td align="center"><a href="https://github.com/Gcenx"><img src="https://avatars.githubusercontent.com/u/38226388?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Gcenx</b></sub></a><br /><a href="https://github.com/GabLeRoux/macos-crossover-cloud-build/commits?author=Gcenx" title="Code">💻</a></td>

@@ -117,6 +117,12 @@ patch -p1 < ${GITHUB_WORKSPACE}/distversion.patch
 popd
 endgroup
 
+begingroup "Patch Wine address range for NosTale"
+# Patch provided by Morsisko and Linux Gaming community - THANKS VERY MUCH!
+pushd sources/wine
+patch -p1 < ${GITHUB_WORKSPACE}/nostale.patch
+popd
+endgroup
 
 if [[ ${CROSS_OVER_VERSION} == 22.0.0 ]]; then
     pushd sources/wine
