@@ -1,3 +1,6 @@
+# Archive reason
+CrossOver 24 beta1 works just fine with NosTale, so use it.
+
 # CrossOver built in the cloud with NosTale support
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
